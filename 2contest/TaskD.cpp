@@ -1,74 +1,83 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-void Enqueue(int elem, std::queue<int>& qw, std::deque<int>& values,
-             std::deque<int>& mins) {
-  qw.push(elem);
-  values.push_back(elem);
-  while (!mins.empty() && mins.back() > elem) {
-    mins.pop_back();
+
+class Hat {
+ private:
+  std::queue<int> qw_;
+  std::deque<int> values_;
+  std::deque<int> mins_;
+
+ public:
+  Hat(){};
+  void Enqueue(int elem) {
+    qw_.push(elem);
+    values_.push_back(elem);
+    while (!mins_.empty() && mins_.back() > elem) {
+      mins_.pop_back();
+    }
+    mins_.push_back(elem);
   }
-  mins.push_back(elem);
-}
-int Dequeue(std::queue<int>& qw, std::deque<int>& values,
-            std::deque<int>& mins) {
-  int last = qw.front();
-  qw.pop();
-  if (values.front() == mins.front()) {
-    mins.pop_front();
+  int Dequeue() {
+    int last = qw_.front();
+    qw_.pop();
+    if (values_.front() == mins_.front()) {
+      mins_.pop_front();
+    }
+    values_.pop_front();
+    return last;
   }
-  values.pop_front();
-  return last;
-}
-int Size(std::queue<int>& qw) { return qw.size(); }
-void Pop(std::queue<int>& qw) { qw.pop(); }
-int Front(std::queue<int>& qw) { return qw.front(); }
-std::string Clear(std::queue<int>& qw) {
-  while (!qw.empty()) {
-    qw.pop();
+  int Size() { return qw_.size(); }
+  bool Checksize() { return !qw_.empty(); }
+  void Pop() { qw_.pop(); }
+  int Front() { return qw_.front(); }
+  std::string Clear() {
+    while (!qw_.empty()) {
+      qw_.pop();
+    }
+    mins_.clear();
+    values_.clear();
+    return "ok";
   }
-  return "ok";
-}
+  int Min() { return mins_.front(); }
+};
+
 int main() {
-  std::queue<int> qw;
   int number = 0;
   std::cin >> number;
-  std::deque<int> values;
-  std::deque<int> mins;
-  for (int i = 0; i < number; i++) {
+  Hat hat;
+  for (int i = 0; i < number; ++i) {
     std::string command;
     std::cin >> command;
     if (command == "enqueue") {
       int elem = 0;
       std::cin >> elem;
-      Enqueue(elem, qw, values, mins);
+      hat.Enqueue(elem);
       std::cout << "ok" << std::endl;
     }
     if ((command == "dequeue")) {
-      if (Size(qw) > 0) {
-        std::cout << Dequeue(qw, values, mins) << std::endl;
+      if (hat.Checksize()) {
+        std::cout << hat.Dequeue() << std::endl;
       } else {
         std::cout << "error" << std::endl;
       }
     }
     if ((command == "front")) {
-      if (Size(qw) > 0) {
-        std::cout << Front(qw) << std::endl;
+      if (hat.Checksize()) {
+        std::cout << hat.Front() << std::endl;
       } else {
         std::cout << "error" << std::endl;
       }
     }
     if (command == "size") {
-      std::cout << Size(qw) << std::endl;
+      std::cout << hat.Size() << std::endl;
     }
     if (command == "clear") {
-      std::cout << Clear(qw) << std::endl;
-      mins.clear();
-      values.clear();
+      std::cout << hat.Clear() << std::endl;
     }
     if (command == "min") {
-      if (Size(qw) > 0) {
-        std::cout << mins.front() << std::endl;
+      if (hat.Checksize()) {
+        std::cout << hat.Min() << std::endl;
       } else {
         std::cout << "error" << std::endl;
       }
