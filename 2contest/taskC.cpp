@@ -1,5 +1,6 @@
 #include <deque>
 #include <iostream>
+
 int main() {
   char command;
   long long number;
