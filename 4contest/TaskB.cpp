@@ -1,19 +1,16 @@
 #include <deque>
 #include <iostream>
 
-struct Node {
-  int key;
-  unsigned char height;
-  Node* left;
-  Node* right;
-  Node(int el) {
-    key = el;
-    left = right = 0;
-    height = 1;
-  }
-};
 class Avl {
  private:
+  struct Node {
+    int key;
+    unsigned char height = 1;
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node(int el) : key(el) {}
+  };
+
   Node* root_ = nullptr;
 
   static unsigned char Height(Node* nd) {
@@ -142,3 +139,4 @@ int main() {
     previous_str = str;
   }
 }
+
