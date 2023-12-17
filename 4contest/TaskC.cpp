@@ -1,22 +1,17 @@
 #include <iostream>
 #include <string>
 
-struct Node {
-  std::string key;
-  std::string value;
-  unsigned char height;
-  Node* left;
-  Node* right;
-  Node(std::string first, std::string second) {
-    key = first;
-    value = second;
-    left = right = nullptr;
-    height = 1;
-  }
-};
-
 class Avl {
  private:
+  struct Node {
+    std::string key;
+    std::string value;
+    unsigned char height = 1;
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node(std::string first, std::string second) : key(first), value(second) {}
+  };
+
   Node* root_ = nullptr;
 
   static unsigned char Height(Node* nd) {
@@ -66,7 +61,7 @@ class Avl {
     return nd;
   }
 
-  Node* Insert(Node* nd, std::string key, std::string value) {
+  Node* Insert(Node* nd, const std::string& key, const std::string& value) {
     if (nd == nullptr) {
       return new Node(key, value);
     }
@@ -78,7 +73,7 @@ class Avl {
     return Balance(nd);
   }
 
-  std::string Find(Node* nd, std::string key) {
+  std::string Find(Node* nd, const std::string& key) {
     if (nd == NULL) {
       return "";
     }
@@ -108,13 +103,12 @@ class Avl {
 
  public:
   Avl() = default;
-  void Insert(std::string key, std::string value) {
+  void Insert(const std::string& key, const std::string& value) {
     root_ = Insert(root_, key, value);
   }
-  std::string Find(std::string key) { return Find(root_, key); }
+  std::string Find(const std::string& key) { return Find(root_, key); }
   ~Avl() { Delete(root_); }
 };
-
 int main() {
   std::ios_base::sync_with_stdio(false);
   std::cin.tie(0);
