@@ -9,7 +9,8 @@ class Avl {
     unsigned char height = 1;
     Node* left = nullptr;
     Node* right = nullptr;
-    Node(std::string first, std::string second) : key(first), value(second) {}
+    Node(const std::string& first, const std::string& second)
+        : key(first), value(second) {}
   };
 
   Node* root_ = nullptr;
