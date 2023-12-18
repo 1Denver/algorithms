@@ -24,7 +24,7 @@ class Dekart {
     }
   };
 
-  typedef std::pair<Node*, Node*> Pair;
+  using Pair = std::pair<Node*, Node*>;
   Node* root_ = 0;
 
   static int GetSize(Node* nd) {
